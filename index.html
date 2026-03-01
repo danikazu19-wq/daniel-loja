@@ -8,16 +8,24 @@
 body{
     margin:0;
     font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    background: linear-gradient(135deg, #ff416c, #ff4b2b, #ffcc33, #33ccff, #9b59b6);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
     color:white;
+}
+
+@keyframes gradientBG{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
 }
 
 header{
     text-align:center;
     padding:30px;
-    font-size:28px;
+    font-size:32px;
     font-weight:bold;
-    letter-spacing:2px;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
 }
 
 .container{
@@ -29,7 +37,7 @@ header{
 }
 
 .produto{
-    background:#ffffff10;
+    background: rgba(255,255,255,0.1);
     backdrop-filter: blur(10px);
     padding:25px;
     border-radius:15px;
@@ -51,7 +59,7 @@ header{
 .preco{
     font-size:18px;
     margin:10px 0;
-    color:#00ffcc;
+    color:#fff;
 }
 
 button{
@@ -59,13 +67,15 @@ button{
     border:none;
     border-radius:8px;
     cursor:pointer;
-    background:#00ffcc;
+    background:white;
+    color:black;
     font-weight:bold;
     transition:0.3s;
 }
 
 button:hover{
-    background:#00ccaa;
+    background:#000;
+    color:#fff;
     transform:scale(1.05);
 }
 </style>
