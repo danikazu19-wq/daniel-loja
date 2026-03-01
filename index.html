@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Daniel Store</title>
 <style>
+/* === Corpo e gradiente === */
 body{
     margin:0;
     font-family: 'Segoe UI', sans-serif;
@@ -19,14 +20,33 @@ body{
     100%{background-position:0% 50%;}
 }
 
+/* === Header === */
 header{
     text-align:center;
     padding:30px;
     font-size:32px;
     font-weight:bold;
     text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    position: relative;
 }
 
+#carrinho{
+    position: absolute;
+    right: 20px;
+    top: 30px;
+    font-size:18px;
+    background: rgba(255,255,255,0.3);
+    padding:8px 15px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+#carrinho:hover{
+    background: rgba(255,255,255,0.6);
+}
+
+/* === Container e produtos === */
 .container{
     display:flex;
     justify-content:center;
@@ -55,11 +75,11 @@ header{
     border-radius:10px;
     margin-bottom:15px;
     width:150px;
-    transition: transform 0.3s;
+    transition: all 0.3s;
 }
 
 .produto img:hover{
-    transform: scale(1.05);
+    transform: scale(1.1) rotate(2deg);
 }
 
 .produto h2{
@@ -88,12 +108,21 @@ button:hover{
     color:#fff;
     transform: scale(1.1);
 }
+
+/* === Responsivo === */
+@media (max-width:768px){
+    .container{
+        flex-direction:column;
+        align-items:center;
+    }
+}
 </style>
 </head>
 <body>
 
 <header>
 🛒 DANIEL STORE
+<div id="carrinho">Carrinho: <span id="contador">0</span></div>
 </header>
 
 <div class="container">
@@ -120,11 +149,14 @@ button:hover{
     <p class="preco">R$ 249,90</p>
     <button onclick="comprar()">Comprar</button>
 </div>
-
 </div>
 
 <script>
+let contador = 0;
+
 function comprar(){
+    contador++;
+    document.getElementById("contador").innerText = contador;
     alert("Produto adicionado ao carrinho 🔥 (Loja Fake)");
 }
 </script>
