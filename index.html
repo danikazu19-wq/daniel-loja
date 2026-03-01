@@ -7,18 +7,16 @@
 body{
     margin:0;
     font-family:'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #ff416c, #ff4b2b, #ffcc33, #33ccff, #9b59b6);
+    background: linear-gradient(135deg,#ff416c,#ff4b2b,#ffcc33,#33ccff,#9b59b6);
     background-size:400% 400%;
     animation: gradientBG 15s ease infinite;
     color:white;
 }
-
 @keyframes gradientBG{
     0%{background-position:0% 50%;}
     50%{background-position:100% 50%;}
     100%{background-position:0% 50%;}
 }
-
 header{
     text-align:center;
     padding:20px 10px;
@@ -27,7 +25,6 @@ header{
     text-shadow:2px 2px 5px rgba(0,0,0,0.5);
     position:relative;
 }
-
 #carrinho{
     position:absolute;
     right:10px;
@@ -39,11 +36,9 @@ header{
     cursor:pointer;
     transition:0.3s;
 }
-
 #carrinho:hover{
     background: rgba(255,255,255,0.6);
 }
-
 .container{
     display:flex;
     justify-content:center;
@@ -51,7 +46,6 @@ header{
     gap:20px;
     padding:20px;
 }
-
 .produto{
     background: rgba(255,255,255,0.1);
     backdrop-filter: blur(15px);
@@ -62,12 +56,10 @@ header{
     transition:0.3s;
     box-shadow:0 8px 20px rgba(0,0,0,0.4);
 }
-
 .produto:hover{
     transform:translateY(-8px);
     box-shadow:0 12px 30px rgba(0,0,0,0.6);
 }
-
 .produto img{
     border-radius:10px;
     margin-bottom:10px;
@@ -75,22 +67,18 @@ header{
     max-width:150px;
     transition: all 0.3s;
 }
-
 .produto img:hover{
     transform: scale(1.1) rotate(2deg);
 }
-
 .produto h2{
     margin-bottom:8px;
     font-size:18px;
 }
-
 .preco{
     font-size:16px;
     margin:8px 0;
     color:#fff;
 }
-
 button{
     padding:8px 18px;
     border:none;
@@ -101,13 +89,11 @@ button{
     font-weight:bold;
     transition: all 0.3s;
 }
-
 button:hover{
     background:#000;
     color:#fff;
     transform: scale(1.1);
 }
-
 /* Carrinho modal */
 #modalCarrinho{
     display:none;
@@ -119,11 +105,9 @@ button:hover{
     justify-content:center;
     align-items:center;
 }
-
 #modalCarrinho.active{
     display:flex;
 }
-
 #modalCarrinho .conteudo{
     background:white;
     color:black;
@@ -134,8 +118,29 @@ button:hover{
     max-height:80%;
     overflow-y:auto;
 }
+.carrinho-item{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+}
+.carrinho-item button{
+    padding:4px 8px;
+    font-size:12px;
+    background:#ff4b2b;
+    color:white;
+}
+.carrinho-item button:hover{
+    background:#ff1a00;
+}
+#limparCarrinho{
+    margin-top:10px;
+    background:#555;
+    color:white;
+}
+#limparCarrinho:hover{
+    background:#222;
+}
 
-/* Responsividade */
 @media (max-width:768px){
     .container{
         flex-direction:column;
@@ -143,33 +148,27 @@ button:hover{
         padding:10px;
         gap:15px;
     }
-
     .produto{
         width:90%;
         max-width:350px;
         padding:15px;
     }
-
     header{
         font-size:24px;
         padding:15px 10px;
     }
-
     #carrinho{
         font-size:14px;
         padding:5px 10px;
         top:15px;
         right:10px;
     }
-
     .produto h2{
         font-size:16px;
     }
-
     .preco{
         font-size:14px;
     }
-
     button{
         padding:6px 14px;
         font-size:14px;
@@ -184,7 +183,6 @@ button:hover{
 <div id="carrinho" onclick="abrirCarrinho()">Carrinho: <span id="contador">0</span></div>
 </header>
 
-<div class="container">
 <div class="produto">
     <img src="https://ae01.alicdn.com/kf/Saeab67a210814e4e8183334d68bbb396A.jpg" alt="blood A91" width="150">
     <h2>blood A91 RGB</h2>
@@ -207,33 +205,26 @@ button:hover{
 </div>
 </div>
 
-<!-- Carrinho Modal -->
 <div id="modalCarrinho">
     <div class="conteudo">
         <h2>Carrinho</h2>
         <ul id="listaCarrinho"></ul>
+        <button id="limparCarrinho" onclick="limparCarrinho()">Limpar Carrinho</button>
         <button onclick="fecharCarrinho()">Fechar</button>
     </div>
 </div>
 
 <script>
-let contador = 0;
-let carrinho = [];
+let contador=0;
+let carrinho=[];
 
-function comprar(btn){
+function comprarProduto(nome,preco){
     contador++;
-    document.getElementById("contador").innerText = contador;
+    document.getElementById("contador").innerText=contador;
 
-    let produtoDiv = btn.parentNode;
-    let nome = produtoDiv.dataset.nome;
-    let preco = produtoDiv.dataset.preco;
-
-    let item = carrinho.find(p => p.nome === nome);
-    if(item){
-        item.quantidade++;
-    } else {
-        carrinho.push({nome:nome, preco:preco, quantidade:1});
-    }
+    let item=carrinho.find(p=>p.nome===nome);
+    if(item){ item.quantidade++; }
+    else{ carrinho.push({nome:nome,preco:preco,quantidade:1}); }
 }
 
 function abrirCarrinho(){
@@ -246,13 +237,29 @@ function fecharCarrinho(){
 }
 
 function atualizarCarrinho(){
-    let lista = document.getElementById("listaCarrinho");
-    lista.innerHTML = "";
-    carrinho.forEach(item=>{
-        let li = document.createElement("li");
-        li.innerText = `${item.nome} - ${item.preco} x ${item.quantidade}`;
+    let lista=document.getElementById("listaCarrinho");
+    lista.innerHTML="";
+    carrinho.forEach((item,index)=>{
+        let li=document.createElement("li");
+        li.className="carrinho-item";
+        li.innerHTML=`${item.nome} - ${item.preco} x ${item.quantidade} 
+        <button onclick="removerItem(${index})">Remover</button>`;
         lista.appendChild(li);
     });
+}
+
+function removerItem(indice){
+    carrinho.splice(indice,1);
+    contador=carrinho.reduce((sum,item)=>sum+item.quantidade,0);
+    document.getElementById("contador").innerText=contador;
+    atualizarCarrinho();
+}
+
+function limparCarrinho(){
+    carrinho=[];
+    contador=0;
+    document.getElementById("contador").innerText=contador;
+    atualizarCarrinho();
 }
 </script>
 
