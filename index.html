@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Daniel Store</title>
-
 <style>
 body{
     margin:0;
@@ -36,19 +35,31 @@ header{
     padding:40px;
 }
 
-.produto img{
-    border-radius:10px;
-    margin-bottom:15px;
-    transition: transform 0.3s;
-}
-
-.produto img:hover{
-    transform: scale(1.05);
+.produto{
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(15px);
+    padding:25px;
+    border-radius:15px;
+    width:220px;
+    text-align:center;
+    transition:0.3s;
+    box-shadow:0 10px 25px rgba(0,0,0,0.4);
 }
 
 .produto:hover{
     transform:translateY(-10px);
     box-shadow:0 15px 35px rgba(0,0,0,0.6);
+}
+
+.produto img{
+    border-radius:10px;
+    margin-bottom:15px;
+    width:150px;
+    transition: transform 0.3s;
+}
+
+.produto img:hover{
+    transform: scale(1.05);
 }
 
 .produto h2{
@@ -69,17 +80,16 @@ button{
     background:white;
     color:black;
     font-weight:bold;
-    transition:0.3s;
+    transition: all 0.3s;
 }
 
 button:hover{
     background:#000;
     color:#fff;
-    transform:scale(1.05);
+    transform: scale(1.1);
 }
 </style>
 </head>
-
 <body>
 
 <header>
@@ -88,30 +98,29 @@ button:hover{
 
 <div class="container">
 
-<div class="container">
-
 <div class="produto">
-    <img src="https://ae01.alicdn.com/kf/Saeab67a210814e4e8183334d68bbb396A.jpg" alt="blood A91"
- width="150">
+    <img src="LINK_IMAGEM_1" alt="Mouse Gamer">
     <h2>Mouse Gamer RGB</h2>
     <p class="preco">R$ 99,90</p>
     <button onclick="comprar()">Comprar</button>
 </div>
 
 <div class="produto">
-    <img src="https://pisces.bbystatic.com/image2/BestBuy_US/images/products/589d3b48-0f2b-43d7-924c-49dcfb8832ee.jpg;maxHeight=1920;maxWidth=900?format=webp
-        " alt="astro a50" width="150">
+    <img src="LINK_IMAGEM_2" alt="Teclado Mecânico">
     <h2>Teclado Mecânico</h2>
     <p class="preco">R$ 249,90</p>
     <button onclick="comprar()">Comprar</button>
 </div>
 
 <div class="produto">
-    <img src="https://uk.whatgeek.com/cdn/shop/files/ATTACK_SHARK_K86_Wireless_Mechanical_Keyboard_11_700x.jpg?v=1731052560" alt="Attack shark k86" width="150">
-    <h2>Teclado Mecânico</h2>
-    <p class="preco">R$ 249,90</p>
+    <img src="LINK_IMAGEM_3" alt="Headset Pro 7.1">
+    <h2>Headset Pro 7.1</h2>
+    <p class="preco">R$ 179,90</p>
     <button onclick="comprar()">Comprar</button>
 </div>
+
+</div>
+
 <script>
 function comprar(){
     alert("Produto adicionado ao carrinho 🔥 (Loja Fake)");
