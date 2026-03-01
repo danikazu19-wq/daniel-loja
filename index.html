@@ -6,9 +6,9 @@
 <style>
 body{
     margin:0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family:'Segoe UI', sans-serif;
     background: linear-gradient(135deg, #ff416c, #ff4b2b, #ffcc33, #33ccff, #9b59b6);
-    background-size: 400% 400%;
+    background-size:400% 400%;
     animation: gradientBG 15s ease infinite;
     color:white;
 }
@@ -24,14 +24,14 @@ header{
     padding:20px 10px;
     font-size:28px;
     font-weight:bold;
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-    position: relative;
+    text-shadow:2px 2px 5px rgba(0,0,0,0.5);
+    position:relative;
 }
 
 #carrinho{
-    position: absolute;
-    right: 10px;
-    top: 20px;
+    position:absolute;
+    right:10px;
+    top:20px;
     font-size:16px;
     background: rgba(255,255,255,0.3);
     padding:6px 12px;
@@ -114,10 +114,13 @@ button:hover{
     position:fixed;
     top:0; left:0;
     width:100%; height:100%;
-    background:rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.7);
     z-index:1000;
     justify-content:center;
     align-items:center;
+}
+
+#modalCarrinho.active{
     display:flex;
 }
 
@@ -132,7 +135,7 @@ button:hover{
     overflow-y:auto;
 }
 
-/* Responsivo */
+/* Responsividade */
 @media (max-width:768px){
     .container{
         flex-direction:column;
@@ -182,28 +185,25 @@ button:hover{
 </header>
 
 <div class="container">
-
 <div class="produto">
     <img src="https://ae01.alicdn.com/kf/Saeab67a210814e4e8183334d68bbb396A.jpg" alt="blood A91" width="150">
-    <h2>Mouse Gamer RGB</h2>
+    <h2>blood A91 RGB</h2>
     <p class="preco">R$ 99,90</p>
     <button onclick="comprar()">Comprar</button>
 </div>
 
 <div class="produto">
     <img src="https://uk.whatgeek.com/cdn/shop/files/ATTACK_SHARK_K86_Wireless_Mechanical_Keyboard_11_700x.jpg?v=1731052560" alt="Attack shark K86" width="150">
-    <h2>Teclado Mecânico</h2>
+    <h2>Attack shark K86</h2>
     <p class="preco">R$ 249,90</p>
     <button onclick="comprar()">Comprar</button>
 </div>
 
 <div class="produto">
     <img src="https://pisces.bbystatic.com/image2/BestBuy_US/images/products/589d3b48-0f2b-43d7-924c-49dcfb8832ee.jpg;maxHeight=1920;maxWidth=900?format=webp" alt="Astro A50" width="150">
-    <h2>Headset Pro 7.1</h2>
+    <h2>Astro A50</h2>
     <p class="preco">R$ 179,90</p>
     <button onclick="comprar()">Comprar</button>
-</div>
-
 </div>
 </div>
 
@@ -225,30 +225,30 @@ function comprar(btn){
     document.getElementById("contador").innerText = contador;
 
     let produtoDiv = btn.parentNode;
-    let produtoNome = produtoDiv.dataset.nome;
+    let nome = produtoDiv.dataset.nome;
     let preco = produtoDiv.dataset.preco;
 
-    let item = carrinho.find(p => p.nome === produtoNome);
+    let item = carrinho.find(p => p.nome === nome);
     if(item){
         item.quantidade++;
     } else {
-        carrinho.push({nome: produtoNome, preco: preco, quantidade:1});
+        carrinho.push({nome:nome, preco:preco, quantidade:1});
     }
 }
 
 function abrirCarrinho(){
     atualizarCarrinho();
-    document.getElementById("modalCarrinho").style.display = "flex";
+    document.getElementById("modalCarrinho").classList.add("active");
 }
 
 function fecharCarrinho(){
-    document.getElementById("modalCarrinho").style.display = "none";
+    document.getElementById("modalCarrinho").classList.remove("active");
 }
 
 function atualizarCarrinho(){
     let lista = document.getElementById("listaCarrinho");
     lista.innerHTML = "";
-    carrinho.forEach(item => {
+    carrinho.forEach(item=>{
         let li = document.createElement("li");
         li.innerText = `${item.nome} - ${item.preco} x ${item.quantidade}`;
         lista.appendChild(li);
