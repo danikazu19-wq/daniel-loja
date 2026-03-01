@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Daniel Store</title>
 <style>
-/* Corpo e gradiente */
+/* === Corpo e gradiente === */
 body{
     margin:0;
     font-family: 'Segoe UI', sans-serif;
@@ -20,7 +20,7 @@ body{
     100%{background-position:0% 50%;}
 }
 
-/* Header */
+/* === Header === */
 header{
     text-align:center;
     padding:20px 10px;
@@ -46,7 +46,7 @@ header{
     background: rgba(255,255,255,0.6);
 }
 
-/* Container e produtos */
+/* === Container e produtos === */
 .container{
     display:flex;
     justify-content:center;
@@ -111,7 +111,7 @@ button:hover{
     transform: scale(1.1);
 }
 
-/* Carrinho modal */
+/* === Carrinho modal === */
 #modalCarrinho{
     display:none;
     position:fixed;
@@ -121,6 +121,7 @@ button:hover{
     z-index:1000;
     justify-content:center;
     align-items:center;
+    display:flex; /* importante para centralizar */
 }
 
 #modalCarrinho .conteudo{
@@ -134,7 +135,7 @@ button:hover{
     overflow-y:auto;
 }
 
-/* Responsividade */
+/* === Responsividade === */
 @media (max-width:1024px){
     .container{
         gap:15px;
@@ -191,6 +192,7 @@ button:hover{
 </header>
 
 <div class="container">
+
 <div class="produto">
     <img src="https://ae01.alicdn.com/kf/Saeab67a210814e4e8183334d68bbb396A.jpg" alt="blood A91"
  width="150">
@@ -246,7 +248,8 @@ function comprar(event){
 }
 
 function abrirCarrinho(){
-    document.getElementById("modalCarrinho").style.display = "flex";
+    let modal = document.getElementById("modalCarrinho");
+    modal.style.display = "flex"; // importante: flex para centralizar
     atualizarCarrinho();
 }
 
