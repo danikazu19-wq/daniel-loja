@@ -23,8 +23,8 @@ body{
 /* === Header === */
 header{
     text-align:center;
-    padding:30px;
-    font-size:32px;
+    padding:20px 10px;
+    font-size:28px;
     font-weight:bold;
     text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
     position: relative;
@@ -32,11 +32,11 @@ header{
 
 #carrinho{
     position: absolute;
-    right: 20px;
-    top: 30px;
-    font-size:18px;
+    right: 10px;
+    top: 20px;
+    font-size:16px;
     background: rgba(255,255,255,0.3);
-    padding:8px 15px;
+    padding:6px 12px;
     border-radius:12px;
     cursor:pointer;
     transition:0.3s;
@@ -51,30 +51,31 @@ header{
     display:flex;
     justify-content:center;
     flex-wrap:wrap;
-    gap:30px;
-    padding:40px;
+    gap:20px;
+    padding:20px;
 }
 
 .produto{
     background: rgba(255,255,255,0.1);
     backdrop-filter: blur(15px);
-    padding:25px;
+    padding:20px;
     border-radius:15px;
-    width:220px;
+    width:200px;
     text-align:center;
     transition:0.3s;
-    box-shadow:0 10px 25px rgba(0,0,0,0.4);
+    box-shadow:0 8px 20px rgba(0,0,0,0.4);
 }
 
 .produto:hover{
-    transform:translateY(-10px);
-    box-shadow:0 15px 35px rgba(0,0,0,0.6);
+    transform:translateY(-8px);
+    box-shadow:0 12px 30px rgba(0,0,0,0.6);
 }
 
 .produto img{
     border-radius:10px;
-    margin-bottom:15px;
-    width:150px;
+    margin-bottom:10px;
+    width:100%;
+    max-width:150px;
     transition: all 0.3s;
 }
 
@@ -83,17 +84,18 @@ header{
 }
 
 .produto h2{
-    margin-bottom:10px;
+    margin-bottom:8px;
+    font-size:18px;
 }
 
 .preco{
-    font-size:18px;
-    margin:10px 0;
+    font-size:16px;
+    margin:8px 0;
     color:#fff;
 }
 
 button{
-    padding:10px 20px;
+    padding:8px 18px;
     border:none;
     border-radius:8px;
     cursor:pointer;
@@ -109,11 +111,51 @@ button:hover{
     transform: scale(1.1);
 }
 
-/* === Responsivo === */
+/* === Responsividade === */
+@media (max-width:1024px){
+    .container{
+        gap:15px;
+        padding:15px;
+    }
+}
+
 @media (max-width:768px){
     .container{
         flex-direction:column;
         align-items:center;
+        padding:10px;
+        gap:15px;
+    }
+
+    .produto{
+        width:80%;
+        max-width:300px;
+        padding:15px;
+    }
+
+    header{
+        font-size:24px;
+        padding:15px 10px;
+    }
+
+    #carrinho{
+        font-size:14px;
+        padding:5px 10px;
+        top:15px;
+        right:10px;
+    }
+
+    .produto h2{
+        font-size:16px;
+    }
+
+    .preco{
+        font-size:14px;
+    }
+
+    button{
+        padding:6px 14px;
+        font-size:14px;
     }
 }
 </style>
