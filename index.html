@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Daniel Store</title>
 <style>
-/* === Corpo e gradiente === */
 body{
     margin:0;
     font-family: 'Segoe UI', sans-serif;
@@ -20,7 +19,6 @@ body{
     100%{background-position:0% 50%;}
 }
 
-/* === Header === */
 header{
     text-align:center;
     padding:20px 10px;
@@ -46,7 +44,6 @@ header{
     background: rgba(255,255,255,0.6);
 }
 
-/* === Container e produtos === */
 .container{
     display:flex;
     justify-content:center;
@@ -111,7 +108,7 @@ button:hover{
     transform: scale(1.1);
 }
 
-/* === Carrinho modal === */
+/* Carrinho modal */
 #modalCarrinho{
     display:none;
     position:fixed;
@@ -121,7 +118,7 @@ button:hover{
     z-index:1000;
     justify-content:center;
     align-items:center;
-    display:flex; /* importante para centralizar */
+    display:flex;
 }
 
 #modalCarrinho .conteudo{
@@ -135,14 +132,7 @@ button:hover{
     overflow-y:auto;
 }
 
-/* === Responsividade === */
-@media (max-width:1024px){
-    .container{
-        gap:15px;
-        padding:15px;
-    }
-}
-
+/* Responsivo */
 @media (max-width:768px){
     .container{
         flex-direction:column;
@@ -194,28 +184,27 @@ button:hover{
 <div class="container">
 
 <div class="produto">
-    <img src="https://ae01.alicdn.com/kf/Saeab67a210814e4e8183334d68bbb396A.jpg" alt="blood A91"
- width="150">
+    <img src="https://i.imgur.com/q5zR3Pn.png" alt="Mouse Gamer" width="150">
     <h2>Mouse Gamer RGB</h2>
     <p class="preco">R$ 99,90</p>
     <button onclick="comprar()">Comprar</button>
 </div>
 
 <div class="produto">
-    <img src="https://pisces.bbystatic.com/image2/BestBuy_US/images/products/589d3b48-0f2b-43d7-924c-49dcfb8832ee.jpg;maxHeight=1920;maxWidth=900?format=webp
-        " alt="astro a50" width="150">
+    <img src="https://i.imgur.com/YXKqS3W.png" alt="Teclado Mecânico" width="150">
     <h2>Teclado Mecânico</h2>
     <p class="preco">R$ 249,90</p>
     <button onclick="comprar()">Comprar</button>
 </div>
 
 <div class="produto">
-    <img src="https://uk.whatgeek.com/cdn/shop/files/ATTACK_SHARK_K86_Wireless_Mechanical_Keyboard_11_700x.jpg?v=1731052560" alt="Attack shark k86" width="150">
-    <h2>Teclado Mecânico</h2>
-    <p class="preco">R$ 249,90</p>
+    <img src="https://i.imgur.com/2ZbM1HZ.png" alt="Headset Pro" width="150">
+    <h2>Headset Pro 7.1</h2>
+    <p class="preco">R$ 179,90</p>
     <button onclick="comprar()">Comprar</button>
 </div>
 
+</div>
 </div>
 
 <!-- Carrinho Modal -->
@@ -231,12 +220,13 @@ button:hover{
 let contador = 0;
 let carrinho = [];
 
-function comprar(event){
+function comprar(btn){
     contador++;
     document.getElementById("contador").innerText = contador;
 
-    let produtoNome = event.target.parentNode.querySelector("h2").innerText;
-    let preco = event.target.parentNode.querySelector(".preco").innerText;
+    let produtoDiv = btn.parentNode;
+    let produtoNome = produtoDiv.dataset.nome;
+    let preco = produtoDiv.dataset.preco;
 
     let item = carrinho.find(p => p.nome === produtoNome);
     if(item){
@@ -244,13 +234,11 @@ function comprar(event){
     } else {
         carrinho.push({nome: produtoNome, preco: preco, quantidade:1});
     }
-    alert("Produto adicionado ao carrinho 🔥");
 }
 
 function abrirCarrinho(){
-    let modal = document.getElementById("modalCarrinho");
-    modal.style.display = "flex"; // importante: flex para centralizar
     atualizarCarrinho();
+    document.getElementById("modalCarrinho").style.display = "flex";
 }
 
 function fecharCarrinho(){
