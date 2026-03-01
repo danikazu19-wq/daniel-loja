@@ -124,8 +124,8 @@ button:hover{
     margin:0;
 }
 .carrinho-item{
-    display:flex; /* horizontal */
-    justify-content:space-between; /* nome e botão nas extremidades */
+    display:flex;
+    justify-content:space-between;
     align-items:center;
     margin-bottom:10px;
     background:rgba(0,0,0,0.05);
@@ -227,16 +227,20 @@ button:hover{
 </div>
 
 <script>
-let contador=0;
 let carrinho=[];
+let contador=0;
 
-function comprarProduto(nome,preco){
-    contador++;
-    document.getElementById("contador").innerText=contador;
-
-    let item=carrinho.find(p=>p.nome===nome);
+function adicionarAoCarrinho(nome, preco){
+    // Adiciona ou aumenta quantidade
+    let item = carrinho.find(i => i.nome===nome);
     if(item){ item.quantidade++; }
-    else{ carrinho.push({nome:nome,preco:preco,quantidade:1}); }
+    else{ carrinho.push({nome:nome, preco:preco, quantidade:1}); }
+    atualizarContador();
+}
+
+function atualizarContador(){
+    contador = carrinho.reduce((sum, i)=> sum + i.quantidade, 0);
+    document.getElementById("contador").innerText = contador;
 }
 
 function abrirCarrinho(){
@@ -249,28 +253,25 @@ function fecharCarrinho(){
 }
 
 function atualizarCarrinho(){
-    let lista=document.getElementById("listaCarrinho");
-    lista.innerHTML="";
+    let lista = document.getElementById("listaCarrinho");
+    lista.innerHTML = "";
     carrinho.forEach((item,index)=>{
-        let li=document.createElement("li");
-        li.className="carrinho-item";
-        li.innerHTML=`${item.nome} - ${item.preco} x ${item.quantidade} 
-        <button onclick="removerItem(${index})">Remover</button>`;
+        let li = document.createElement("li");
+        li.className = "carrinho-item";
+        li.innerHTML = `${item.nome} - ${item.preco} x ${item.quantidade} <button onclick="removerItem(${index})">Remover</button>`;
         lista.appendChild(li);
     });
 }
 
-function removerItem(indice){
-    carrinho.splice(indice,1);
-    contador=carrinho.reduce((sum,item)=>sum+item.quantidade,0);
-    document.getElementById("contador").innerText=contador;
+function removerItem(index){
+    carrinho.splice(index,1);
+    atualizarContador();
     atualizarCarrinho();
 }
 
 function limparCarrinho(){
     carrinho=[];
-    contador=0;
-    document.getElementById("contador").innerText=contador;
+    atualizarContador();
     atualizarCarrinho();
 }
 </script>
