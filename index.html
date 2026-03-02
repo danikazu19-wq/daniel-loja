@@ -3,229 +3,190 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daniel Store Treino</title>
+<title>Daniel Store Sistema Completo</title>
 
 <style>
 body{
     margin:0;
-    font-family:Arial, sans-serif;
+    font-family:Arial;
     background:linear-gradient(135deg,#141e30,#243b55);
     color:white;
 }
 
 header{
-    text-align:center;
-    padding:20px;
-    font-size:28px;
-    font-weight:bold;
-}
-
-.top-controls{
-    text-align:center;
-    margin-bottom:20px;
-}
-
-input, select{
-    padding:8px;
-    margin:5px;
-    border-radius:6px;
-    border:none;
-}
-
-.container{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:20px;
-    padding:20px;
-}
-
-.produto{
-    background:#1e2a38;
     padding:15px;
-    border-radius:12px;
-    width:220px;
-    text-align:center;
-}
-
-.produto img{
-    width:100%;
-    border-radius:8px;
+    background:#111;
+    display:flex;
+    justify-content:space-between;
 }
 
 button{
-    margin-top:10px;
-    padding:8px 15px;
+    padding:6px 12px;
     border:none;
     border-radius:6px;
     cursor:pointer;
     font-weight:bold;
 }
 
-.comprar{
-    background:#00ffcc;
-    color:black;
+input{
+    padding:6px;
+    margin:5px 0;
+    border-radius:6px;
+    border:none;
 }
 
-.comprar:hover{
-    background:#00ccaa;
-}
+.hidden{ display:none; }
 
-#carrinho{
-    background:#111;
-    padding:15px;
-    margin:20px;
-    border-radius:12px;
-}
-
-.carrinho-item{
+.container{
+    padding:20px;
     display:flex;
-    justify-content:space-between;
-    margin-bottom:8px;
+    flex-wrap:wrap;
+    gap:20px;
 }
 
-.remover{
-    background:red;
-    color:white;
-    font-size:12px;
+.produto{
+    background:#1e2a38;
+    padding:15px;
+    border-radius:10px;
+    width:200px;
+    text-align:center;
 }
 
-.total{
-    font-weight:bold;
-    margin-top:10px;
+.admin-box{
+    background:#1e2a38;
+    padding:20px;
+    margin:20px;
+    border-radius:10px;
 }
 </style>
 </head>
 <body>
 
-<header>🚀 DANIEL STORE TREINO</header>
-
-<div class="top-controls">
-<input type="text" id="pesquisa" placeholder="Pesquisar..." onkeyup="filtrarProdutos()">
-
-<select onchange="ordenarProdutos(this.value)">
-<option value="">Ordenar por</option>
-<option value="menor">Menor preço</option>
-<option value="maior">Maior preço</option>
-</select>
+<!-- LOGIN -->
+<div id="loginPage">
+<h2 style="text-align:center;">🔐 Login</h2>
+<div style="text-align:center;">
+<input id="user" placeholder="Usuário"><br>
+<input id="pass" type="password" placeholder="Senha"><br>
+<button onclick="login()">Entrar</button>
+</div>
 </div>
 
-<div class="container">
+<!-- LOJA -->
+<div id="storePage" class="hidden">
+<header>
+<span>Bem-vindo, <span id="userName"></span></span>
+<button onclick="logout()">Sair</button>
+</header>
 
-<div class="produto">
-<img src="https://uk.whatgeek.com/cdn/shop/files/ATTACK_SHARK_K86_Wireless_Mechanical_Keyboard_11_700x.jpg?v=1731052560">
-<h3>Teclado gamer RGB</h3>
-<p>R$ 99,90</p>
-<button class="comprar" onclick="adicionarAoCarrinho('Mouse Gamer RGB','R$ 99,90')">Comprar</button>
+<h2 style="text-align:center;">🛒 Loja</h2>
+<div class="container" id="listaProdutos"></div>
 </div>
 
-<div class="produto">
-<img src="https://ae01.alicdn.com/kf/Saeab67a210814e4e8183334d68bbb396A.jpg">
-<h3>Mouse gamer RGB</h3>
-<p>R$ 249,90</p>
-<button class="comprar" onclick="adicionarAoCarrinho('Teclado Mecânico','R$ 249,90')">Comprar</button>
+<!-- DASHBOARD DEV -->
+<div id="adminPage" class="hidden">
+<header>
+<span>👑 Dashboard do Dev</span>
+<button onclick="logout()">Sair</button>
+</header>
+
+<div class="admin-box">
+<h3>Adicionar Produto</h3>
+<input id="novoNome" placeholder="Nome do produto"><br>
+<input id="novoPreco" placeholder="Preço"><br>
+<input id="novoImagem" placeholder="<input id="novoNome" placeholder="Nome do produto"><br>
+<input id="novoPreco" placeholder="Preço"><br>
+<input id="novoImagem" placeholder="URL da imagem"><br>"><br>
+<button onclick="adicionarProduto()">Adicionar</button>
 </div>
 
-<div class="produto">
-<img src="https://pisces.bbystatic.com/image2/BestBuy_US/images/products/589d3b48-0f2b-43d7-924c-49dcfb8832ee.jpg;maxHeight=1920;maxWidth=900?format=webp">
-<h3>Headset Gamer</h3>
-<p>R$ 179,90</p>
-<button class="comprar" onclick="adicionarAoCarrinho('Headset Gamer','R$ 179,90')">Comprar</button>
+<div class="admin-box">
+<h3>Produtos Cadastrados</h3>
+<div id="adminLista"></div>
 </div>
-
-</div>
-<div id="carrinho">
-<h2>🛒 Carrinho (<span id="contador">0</span>)</h2>
-<div id="listaCarrinho"></div>
-<div class="total">Total: R$ <span id="valorTotal">0.00</span></div>
-<button onclick="finalizarCompra()">Finalizar Compra</button>
-<button onclick="limparCarrinho()">Limpar</button>
 </div>
 
 <script>
 
-let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+let produtos = JSON.parse(localStorage.getItem("produtos")) || [
+    {nome:"Mouse Gamer", preco:99},
+    {nome:"Teclado Mecânico", preco:199}
+];
 
-function salvarCarrinho(){
-    localStorage.setItem("carrinho", JSON.stringify(carrinho));
+function salvarProdutos(){
+    localStorage.setItem("produtos", JSON.stringify(produtos));
 }
 
-function adicionarAoCarrinho(nome, preco){
-    let item = carrinho.find(p => p.nome === nome);
-    if(item){
-        item.quantidade++;
-    } else {
-        carrinho.push({nome, preco, quantidade:1});
+function login(){
+    let user = document.getElementById("user").value;
+    let pass = document.getElementById("pass").value;
+
+    if(user === "dev" && pass === "123"){
+        document.getElementById("loginPage").classList.add("hidden");
+        document.getElementById("adminPage").classList.remove("hidden");
+        atualizarAdmin();
+        return;
     }
-    salvarCarrinho();
-    atualizarCarrinho();
+
+    if(user){
+        localStorage.setItem("usuario", user);
+        document.getElementById("loginPage").classList.add("hidden");
+        document.getElementById("storePage").classList.remove("hidden");
+        document.getElementById("userName").innerText = user;
+        atualizarLoja();
+    }
 }
 
-function atualizarCarrinho(){
-    let lista = document.getElementById("listaCarrinho");
+function logout(){
+    location.reload();
+}
+
+function atualizarLoja(){
+    let lista = document.getElementById("listaProdutos");
     lista.innerHTML = "";
-    let total = 0;
 
-    carrinho.forEach((item,index)=>{
-        total += item.preco * item.quantidade;
-
+    produtos.forEach(p=>{
         let div = document.createElement("div");
-        div.className="carrinho-item";
-        div.innerHTML=`
-            ${item.nome} x${item.quantidade} - R$ ${(item.preco * item.quantidade).toFixed(2)}
-            <button class="remover" onclick="removerItem(${index})">X</button>
+        div.className="produto";
+        div.innerHTML = `
+            <h3>${p.nome}</h3>
+            <p>R$ ${p.preco}</p>
+            <button>Comprar</button>
         `;
         lista.appendChild(div);
     });
-
-    document.getElementById("contador").innerText =
-        carrinho.reduce((t,i)=> t+i.quantidade,0);
-
-    document.getElementById("valorTotal").innerText = total.toFixed(2);
 }
 
-function removerItem(index){
-    carrinho.splice(index,1);
-    salvarCarrinho();
-    atualizarCarrinho();
-}
+function atualizarAdmin(){
+    let lista = document.getElementById("adminLista");
+    lista.innerHTML = "";
 
-function limparCarrinho(){
-    carrinho = [];
-    salvarCarrinho();
-    atualizarCarrinho();
-}
-
-function finalizarCompra(){
-    alert("Compra realizada com sucesso 🚀🔥");
-    limparCarrinho();
-}
-
-function filtrarProdutos(){
-    let termo = document.getElementById("pesquisa").value.toLowerCase();
-    let produtos = document.querySelectorAll(".produto");
-
-    produtos.forEach(produto=>{
-        let nome = produto.querySelector("h3").innerText.toLowerCase();
-        produto.style.display = nome.includes(termo) ? "block" : "none";
+    produtos.forEach((p,index)=>{
+        let div = document.createElement("div");
+        div.innerHTML = `
+            ${p.nome} - R$ ${p.preco}
+            <button onclick="removerProduto(${index})">Excluir</button>
+        `;
+        lista.appendChild(div);
     });
 }
 
-function ordenarProdutos(tipo){
-    let container = document.querySelector(".container");
-    let produtos = Array.from(document.querySelectorAll(".produto"));
+function adicionarProduto(){
+    let nome = document.getElementById("novoNome").value;
+    let preco = document.getElementById("novoPreco").value;
 
-    produtos.sort((a,b)=>{
-        let precoA = parseFloat(a.querySelector("p").innerText.replace("R$ ",""));
-        let precoB = parseFloat(b.querySelector("p").innerText.replace("R$ ",""));
-
-        return tipo === "menor" ? precoA - precoB : precoB - precoA;
-    });
-
-    produtos.forEach(prod=> container.appendChild(prod));
+    if(nome && preco){
+        produtos.push({nome:nome, preco:preco});
+        salvarProdutos();
+        atualizarAdmin();
+    }
 }
 
-atualizarCarrinho();
+function removerProduto(index){
+    produtos.splice(index,1);
+    salvarProdutos();
+    atualizarAdmin();
+}
 
 </script>
 
