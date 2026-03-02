@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>LOJA ULTRA BRABA</title>
+<title>Loja Ultra Braba</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
@@ -12,12 +12,6 @@ margin:0;
 font-family:'Orbitron',sans-serif;
 background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
 color:white;
-transition:0.4s;
-}
-
-.light{
-background:#f4f4f4;
-color:black;
 }
 
 header{
@@ -44,13 +38,7 @@ padding:15px;
 border-radius:15px;
 width:230px;
 text-align:center;
-transition:0.3s;
 box-shadow:0 0 15px rgba(0,255,255,0.4);
-}
-
-.produto:hover{
-transform:scale(1.05);
-box-shadow:0 0 25px #00f7ff;
 }
 
 .produto img{
@@ -67,35 +55,22 @@ cursor:pointer;
 font-weight:bold;
 background:#00f7ff;
 color:black;
-transition:0.3s;
 }
 
 button:hover{
 background:#ff00c8;
 color:white;
-box-shadow:0 0 15px #ff00c8;
 }
 
-#carrinho{
+#carrinho,#admin{
 background:#111;
 margin:20px;
 padding:20px;
 border-radius:15px;
 }
-
-.estrela{
-cursor:pointer;
-font-size:18px;
-color:gray;
-}
-
-.ativa{
-color:gold;
-}
-
-input, select{
-padding:6px;
+input{
 margin:5px;
+padding:5px;
 border-radius:5px;
 border:none;
 }
@@ -106,15 +81,7 @@ border:none;
 
 <header>🔥 LOJA ULTRA BRABA 🔥</header>
 
-<div style="text-align:center;">
-<input type="text" id="pesquisa" placeholder="Pesquisar produto..." onkeyup="filtrar()">
-<select onchange="ordenar(this.value)">
-<option value="">Ordenar</option>
-<option value="menor">Menor preço</option>
-<option value="maior">Maior preço</option>
-</select>
-<button onclick="modo()">Modo Claro/Escuro</button>
-</div>
+<button onclick="abrirAdmin()" style="position:absolute;top:20px;right:20px;">👑 Área do Dono</button>
 
 <div class="container" id="produtos"></div>
 
@@ -124,26 +91,48 @@ border:none;
 <p>Total: R$ <span id="total">0</span></p>
 <input type="text" id="cupom" placeholder="Cupom">
 <button onclick="aplicarCupom()">Aplicar</button>
-<button onclick="comprar()">Finalizar</button>
 </div>
 
-<audio id="som">
-<source src="https://www.soundjay.com/buttons/sounds/button-3.mp3">
-</audio>
+<div id="admin" style="display:none;">
+<h2>🔐 Dashboard do Dono</h2>
+
+<h3>Adicionar Produto</h3>
+<input id="novoNome" placeholder="Nome">
+<input id="novoPreco" type="number" placeholder="Preço">
+<input id="novoImg" placeholder="URL da imagem">
+<input id="novoEstoque" type="number" placeholder="Estoque">
+<button onclick="addProduto()">Adicionar</button>
+
+<hr>
+
+<h3>Alterar Produto</h3>
+<input id="indexProduto" type="number" placeholder="Número do produto (0,1,2...)">
+<input id="novoValor" type="number" placeholder="Novo preço">
+<input id="novoEstoque2" type="number" placeholder="Novo estoque">
+<button onclick="alterarProduto()">Atualizar</button>
+
+<hr>
+
+<h3>Criar Cupom</h3>
+<input id="nomeCupom" placeholder="Nome do cupom">
+<input id="valorCupom" type="number" placeholder="Desconto %">
+<button onclick="criarCupom()">Criar Cupom</button>
+</div>
 
 <script>
 
-let produtos = [
+let produtos=[
 {nome:"Teclado Gamer RGB",preco:99.90,img:"https://uk.whatgeek.com/cdn/shop/files/ATTACK_SHARK_K86_Wireless_Mechanical_Keyboard_11_700x.jpg?v=1731052560",estoque:5},
 {nome:"Mouse Gamer RGB",preco:249.90,img:"https://ae01.alicdn.com/kf/Saeab67a210814e4e8183334d68bbb396A.jpg",estoque:3},
-{nome:"Headset Gamer",preco:179.90,img:"https://pisces.bbystatic.com/image2/BestBuy_US/images/products/589d3b48-0f2b-43d7-924c-49dcfb8832ee.jpg;maxHeight=1920;maxWidth=900?format=webp",estoque:4}
+{nome:"Headset Gamer",preco:179.90,img:"https://pisces.bbystatic.com/image2/BestBuy_US/images/products/589d3b48-0f2b-43d7-924c-49dcfb8832ee.jpg",estoque:4}
 ];
 
-let total = 0;
-let desconto = 0;
+let total=0;
+let desconto=0;
+let cupons={"ULTRA10":10};
 
 function mostrar(){
-let area = document.getElementById("produtos");
+let area=document.getElementById("produtos");
 area.innerHTML="";
 produtos.forEach((p,i)=>{
 area.innerHTML+=`
@@ -152,13 +141,6 @@ area.innerHTML+=`
 <h3>${p.nome}</h3>
 <p>R$ ${p.preco}</p>
 <p>Estoque: ${p.estoque}</p>
-<div>
-<span class="estrela" onclick="avaliar(this)">★</span>
-<span class="estrela" onclick="avaliar(this)">★</span>
-<span class="estrela" onclick="avaliar(this)">★</span>
-<span class="estrela" onclick="avaliar(this)">★</span>
-<span class="estrela" onclick="avaliar(this)">★</span>
-</div>
 <button onclick="add(${i})">Comprar</button>
 </div>`;
 });
@@ -171,19 +153,15 @@ return;
 }
 produtos[i].estoque--;
 total+=produtos[i].preco;
-
-document.getElementById("lista").innerHTML+=
-`<li>${produtos[i].nome} - R$ ${produtos[i].preco}</li>`;
-
+document.getElementById("lista").innerHTML+=`<li>${produtos[i].nome} - R$ ${produtos[i].preco}</li>`;
 document.getElementById("total").innerText=(total-desconto).toFixed(2);
-document.getElementById("som").play();
 mostrar();
 }
 
 function aplicarCupom(){
 let c=document.getElementById("cupom").value;
-if(c=="ULTRA10"){
-desconto=total*0.1;
+if(cupons[c]){
+desconto=total*(cupons[c]/100);
 alert("Cupom aplicado!");
 }else{
 alert("Cupom inválido!");
@@ -191,37 +169,46 @@ alert("Cupom inválido!");
 document.getElementById("total").innerText=(total-desconto).toFixed(2);
 }
 
-function comprar(){
-alert("Compra finalizada 🔥");
-location.reload();
+function abrirAdmin(){
+let senha=prompt("Digite a senha:");
+if(senha==="admin123"){
+document.getElementById("admin").style.display="block";
+}else{
+alert("Senha incorreta!");
+}
 }
 
-function avaliar(el){
-el.classList.toggle("ativa");
+function addProduto(){
+let nome=document.getElementById("novoNome").value;
+let preco=parseFloat(document.getElementById("novoPreco").value);
+let img=document.getElementById("novoImg").value;
+let estoque=parseInt(document.getElementById("novoEstoque").value);
+produtos.push({nome,preco,img,estoque});
+mostrar();
+alert("Produto adicionado!");
 }
 
-function modo(){
-document.body.classList.toggle("light");
+function alterarProduto(){
+let i=parseInt(document.getElementById("indexProduto").value);
+if(produtos[i]){
+if(document.getElementById("novoValor").value){
+produtos[i].preco=parseFloat(document.getElementById("novoValor").value);
 }
-
-function filtrar(){
-let texto=document.getElementById("pesquisa").value.toLowerCase();
-let cards=document.querySelectorAll(".produto");
-cards.forEach(card=>{
-card.style.display=
-card.innerText.toLowerCase().includes(texto)
-? "block":"none";
-});
-}
-
-function ordenar(tipo){
-if(tipo=="menor"){
-produtos.sort((a,b)=>a.preco-b.preco);
-}
-if(tipo=="maior"){
-produtos.sort((a,b)=>b.preco-a.preco);
+if(document.getElementById("novoEstoque2").value){
+produtos[i].estoque=parseInt(document.getElementById("novoEstoque2").value);
 }
 mostrar();
+alert("Atualizado!");
+}else{
+alert("Produto não encontrado!");
+}
+}
+
+function criarCupom(){
+let nome=document.getElementById("nomeCupom").value;
+let valor=parseFloat(document.getElementById("valorCupom").value);
+cupons[nome]=valor;
+alert("Cupom criado!");
 }
 
 mostrar();
