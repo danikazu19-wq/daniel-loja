@@ -1,44 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daniel Store</title>
+
 <style>
 body{
     margin:0;
-    font-family:'Segoe UI', sans-serif;
+    font-family:Arial, sans-serif;
     background: linear-gradient(135deg,#ff416c,#ff4b2b,#ffcc33,#33ccff,#9b59b6);
     background-size:400% 400%;
     animation: gradientBG 15s ease infinite;
     color:white;
 }
+
 @keyframes gradientBG{
     0%{background-position:0% 50%;}
     50%{background-position:100% 50%;}
     100%{background-position:0% 50%;}
 }
+
 header{
     text-align:center;
-    padding:20px 10px;
+    padding:20px;
     font-size:28px;
     font-weight:bold;
-    text-shadow:2px 2px 5px rgba(0,0,0,0.5);
     position:relative;
 }
-#carrinho{
+
+#carrinhoBtn{
     position:absolute;
-    right:10px;
+    right:20px;
     top:20px;
-    font-size:16px;
-    background: rgba(255,255,255,0.3);
-    padding:6px 12px;
-    border-radius:12px;
+    background:white;
+    color:black;
+    padding:8px 12px;
+    border-radius:8px;
     cursor:pointer;
-    transition:0.3s;
+    font-size:14px;
 }
-#carrinho:hover{
-    background: rgba(255,255,255,0.6);
-}
+
 .container{
     display:flex;
     justify-content:center;
@@ -46,143 +48,83 @@ header{
     gap:20px;
     padding:20px;
 }
+
 .produto{
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(15px);
-    padding:20px;
-    border-radius:15px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
+    padding:15px;
+    border-radius:12px;
     width:220px;
     text-align:center;
-    transition:0.3s;
-    box-shadow:0 8px 20px rgba(0,0,0,0.4);
 }
-.produto:hover{
-    transform:translateY(-8px);
-    box-shadow:0 12px 30px rgba(0,0,0,0.6);
-}
+
 .produto img{
-    border-radius:10px;
-    margin-bottom:10px;
     width:100%;
-    max-width:150px;
-    transition: all 0.3s;
-}
-.produto img:hover{
-    transform: scale(1.1) rotate(2deg);
-}
-.produto h2{
-    margin-bottom:8px;
-    font-size:18px;
-}
-.preco{
-    font-size:16px;
-    margin:8px 0;
-    color:#fff;
-}
-button{
-    padding:8px 18px;
-    border:none;
     border-radius:8px;
+}
+
+button{
+    margin-top:10px;
+    padding:8px 15px;
+    border:none;
+    border-radius:6px;
     cursor:pointer;
+    font-weight:bold;
+}
+
+.comprar{
     background:white;
     color:black;
-    font-weight:bold;
-    transition: all 0.3s;
 }
-button:hover{
-    background:#000;
-    color:#fff;
-    transform: scale(1.1);
+
+.comprar:hover{
+    background:black;
+    color:white;
 }
-/* Carrinho modal */
-#modalCarrinho{
+
+/* MODAL */
+#modal{
     display:none;
     position:fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background: rgba(0,0,0,0.7);
-    z-index:1000;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.7);
     justify-content:center;
     align-items:center;
 }
-#modalCarrinho.active{
+
+#modal.active{
     display:flex;
 }
-#modalCarrinho .conteudo{
+
+.modal-content{
     background:white;
     color:black;
     padding:20px;
-    border-radius:15px;
+    border-radius:12px;
     width:90%;
     max-width:500px;
-    max-height:80%;
-    overflow-y:auto;
 }
-#modalCarrinho .conteudo ul{
-    list-style:none;
-    padding:0;
-    margin:0;
-}
+
 .carrinho-item{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:10px;
-    background:rgba(0,0,0,0.05);
-    padding:8px 10px;
-    border-radius:8px;
+    margin-bottom:8px;
 }
-.carrinho-item button{
-    padding:4px 8px;
+
+.remover{
+    background:red;
+    color:white;
     font-size:12px;
-    background:#ff4b2b;
-    color:white;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
 }
-.carrinho-item button:hover{
-    background:#ff1a00;
-}
-#limparCarrinho{
-    margin-top:10px;
-    background:#555;
-    color:white;
-}
-#limparCarrinho:hover{
-    background:#222;
-}
-@media (max-width:768px){
+
+@media(max-width:768px){
     .container{
         flex-direction:column;
         align-items:center;
-        padding:10px;
-        gap:15px;
-    }
-    .produto{
-        width:90%;
-        max-width:350px;
-        padding:15px;
-    }
-    header{
-        font-size:24px;
-        padding:15px 10px;
-    }
-    #carrinho{
-        font-size:14px;
-        padding:5px 10px;
-        top:15px;
-        right:10px;
-    }
-    .produto h2{
-        font-size:16px;
-    }
-    .preco{
-        font-size:14px;
-    }
-    button{
-        padding:6px 14px;
-        font-size:14px;
     }
 }
 </style>
@@ -191,89 +133,104 @@ button:hover{
 
 <header>
 🛒 DANIEL STORE
-<div id="carrinho" onclick="abrirCarrinho()">Carrinho: <span id="contador">0</span></div>
+<div id="carrinhoBtn" onclick="abrirCarrinho()">
+Carrinho (<span id="contador">0</span>)
+</div>
 </header>
 
 <div class="container">
+
 <div class="produto">
-    <img src="https://ae01.alicdn.com/kf/Saeab67a210814e4e8183334d68bbb396A.jpg" alt="blood A91" width="150">
-    <h2>blood A91 RGB</h2>
-    <p class="preco">R$ 99,90</p>
-    <button onclick="comprar()">Comprar</button>
+<img src="https://uk.whatgeek.com/cdn/shop/files/ATTACK_SHARK_K86_Wireless_Mechanical_Keyboard_11_700x.jpg?v=1731052560">
+<h3>Teclado gamer RGB</h3>
+<p>R$ 99,90</p>
+<button class="comprar" onclick="adicionarAoCarrinho('Mouse Gamer RGB','R$ 99,90')">Comprar</button>
 </div>
 
 <div class="produto">
-    <img src="https://uk.whatgeek.com/cdn/shop/files/ATTACK_SHARK_K86_Wireless_Mechanical_Keyboard_11_700x.jpg?v=1731052560" alt="Attack shark K86" width="150">
-    <h2>Attack shark K86</h2>
-    <p class="preco">R$ 249,90</p>
-    <button onclick="comprar()">Comprar</button>
+<img src="https://ae01.alicdn.com/kf/Saeab67a210814e4e8183334d68bbb396A.jpg">
+<h3>Mouse gamer RGB</h3>
+<p>R$ 249,90</p>
+<button class="comprar" onclick="adicionarAoCarrinho('Teclado Mecânico','R$ 249,90')">Comprar</button>
 </div>
 
 <div class="produto">
-    <img src="https://pisces.bbystatic.com/image2/BestBuy_US/images/products/589d3b48-0f2b-43d7-924c-49dcfb8832ee.jpg;maxHeight=1920;maxWidth=900?format=webp" alt="Astro A50" width="150">
-    <h2>Astro A50</h2>
-    <p class="preco">R$ 179,90</p>
-    <button onclick="comprar()">Comprar</button>
-</div>
+<img src="https://pisces.bbystatic.com/image2/BestBuy_US/images/products/589d3b48-0f2b-43d7-924c-49dcfb8832ee.jpg;maxHeight=1920;maxWidth=900?format=webp">
+<h3>Headset Gamer</h3>
+<p>R$ 179,90</p>
+<button class="comprar" onclick="adicionarAoCarrinho('Headset Gamer','R$ 179,90')">Comprar</button>
 </div>
 
-<div id="modalCarrinho">
-    <div class="conteudo">
-        <h2>Carrinho</h2>
-        <ul id="listaCarrinho"></ul>
-        <button id="limparCarrinho" onclick="limparCarrinho()">Limpar Carrinho</button>
-        <button onclick="fecharCarrinho()">Fechar</button>
-    </div>
+</div>
+
+<!-- MODAL CARRINHO -->
+<div id="modal">
+<div class="modal-content">
+<h2>Carrinho</h2>
+<div id="listaCarrinho"></div>
+<br>
+<button onclick="limparCarrinho()">Limpar Carrinho</button>
+<button onclick="fecharCarrinho()">Fechar</button>
+</div>
 </div>
 
 <script>
-let carrinho=[];
-let contador=0;
+
+let carrinho = [];
 
 function adicionarAoCarrinho(nome, preco){
-    // Adiciona ou aumenta quantidade
-    let item = carrinho.find(i => i.nome===nome);
-    if(item){ item.quantidade++; }
-    else{ carrinho.push({nome:nome, preco:preco, quantidade:1}); }
-    atualizarContador();
-}
 
-function atualizarContador(){
-    contador = carrinho.reduce((sum, i)=> sum + i.quantidade, 0);
-    document.getElementById("contador").innerText = contador;
-}
+    let item = carrinho.find(produto => produto.nome === nome);
 
-function abrirCarrinho(){
+    if(item){
+        item.quantidade++;
+    } else {
+        carrinho.push({nome:nome, preco:preco, quantidade:1});
+    }
+
     atualizarCarrinho();
-    document.getElementById("modalCarrinho").classList.add("active");
-}
-
-function fecharCarrinho(){
-    document.getElementById("modalCarrinho").classList.remove("active");
 }
 
 function atualizarCarrinho(){
+
     let lista = document.getElementById("listaCarrinho");
     lista.innerHTML = "";
-    carrinho.forEach((item,index)=>{
-        let li = document.createElement("li");
-        li.className = "carrinho-item";
-        li.innerHTML = `${item.nome} - ${item.preco} x ${item.quantidade} <button onclick="removerItem(${index})">Remover</button>`;
-        lista.appendChild(li);
+
+    carrinho.forEach((item, index) => {
+
+        let div = document.createElement("div");
+        div.className = "carrinho-item";
+
+        div.innerHTML = `
+            ${item.nome} - ${item.preco} x ${item.quantidade}
+            <button class="remover" onclick="removerItem(${index})">Remover</button>
+        `;
+
+        lista.appendChild(div);
     });
+
+    let totalItens = carrinho.reduce((total, item) => total + item.quantidade, 0);
+    document.getElementById("contador").innerText = totalItens;
 }
 
 function removerItem(index){
     carrinho.splice(index,1);
-    atualizarContador();
     atualizarCarrinho();
 }
 
 function limparCarrinho(){
-    carrinho=[];
-    atualizarContador();
+    carrinho = [];
     atualizarCarrinho();
 }
+
+function abrirCarrinho(){
+    document.getElementById("modal").classList.add("active");
+}
+
+function fecharCarrinho(){
+    document.getElementById("modal").classList.remove("active");
+}
+
 </script>
 
 </body>
