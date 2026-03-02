@@ -1,224 +1,230 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daniel Store Ultra</title>
+<title>LOJA ULTRA BRABA</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 body{
-    margin:0;
-    font-family:Arial;
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-    color:white;
+margin:0;
+font-family:'Orbitron',sans-serif;
+background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+color:white;
+transition:0.4s;
+}
+
+.light{
+background:#f4f4f4;
+color:black;
 }
 
 header{
-    background:#111;
-    padding:15px;
-    text-align:center;
-    font-size:24px;
+background:black;
+padding:20px;
+text-align:center;
+font-family:'Bangers';
+font-size:40px;
+color:#00f7ff;
+text-shadow:0 0 20px #00f7ff;
 }
 
 .container{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:20px;
-    padding:20px;
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:20px;
+padding:20px;
 }
 
 .produto{
-    background:#1e2a38;
-    padding:15px;
-    border-radius:12px;
-    width:220px;
-    text-align:center;
-    position:relative;
+background:#1b1b2f;
+padding:15px;
+border-radius:15px;
+width:230px;
+text-align:center;
+transition:0.3s;
+box-shadow:0 0 15px rgba(0,255,255,0.4);
+}
+
+.produto:hover{
+transform:scale(1.05);
+box-shadow:0 0 25px #00f7ff;
 }
 
 .produto img{
-    width:100%;
-    border-radius:8px;
-}
-
-.estoque{
-    font-size:13px;
-    color:#00ffcc;
+width:100%;
+border-radius:10px;
 }
 
 button{
-    margin-top:8px;
-    padding:6px 12px;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-    font-weight:bold;
+margin-top:8px;
+padding:8px 15px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+background:#00f7ff;
+color:black;
+transition:0.3s;
 }
 
-.comprar{
-    background:#00ffcc;
-    color:black;
-}
-
-.avaliar span{
-    cursor:pointer;
-    font-size:18px;
+button:hover{
+background:#ff00c8;
+color:white;
+box-shadow:0 0 15px #ff00c8;
 }
 
 #carrinho{
-    background:#111;
-    padding:15px;
-    margin:20px;
-    border-radius:12px;
+background:#111;
+margin:20px;
+padding:20px;
+border-radius:15px;
 }
 
-.carrinho-item{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:10px;
+.estrela{
+cursor:pointer;
+font-size:18px;
+color:gray;
 }
 
-.carrinho-item img{
-    width:50px;
-    border-radius:6px;
+.ativa{
+color:gold;
+}
+
+input, select{
+padding:6px;
+margin:5px;
+border-radius:5px;
+border:none;
 }
 </style>
 </head>
+
 <body>
 
-<header>🔥 DANIEL STORE ULTRA 🔥</header>
+<header>🔥 LOJA ULTRA BRABA 🔥</header>
 
-<div class="container">
-
-<div class="produto">
-<img src="https://uk.whatgeek.com/cdn/shop/files/ATTACK_SHARK_K86_Wireless_Mechanical_Keyboard_11_700x.jpg?v=1731052560">
-<h3>Teclado Gamer RGB</h3>
-<p>R$ 99,90</p>
-<div class="estoque" id="estoque0"></div>
-<div class="avaliar" onclick="avaliar(0,this)">
-⭐ ⭐ ⭐ ⭐ ⭐
-</div>
-<button class="comprar" onclick="adicionarAoCarrinho(0)">Comprar</button>
+<div style="text-align:center;">
+<input type="text" id="pesquisa" placeholder="Pesquisar produto..." onkeyup="filtrar()">
+<select onchange="ordenar(this.value)">
+<option value="">Ordenar</option>
+<option value="menor">Menor preço</option>
+<option value="maior">Maior preço</option>
+</select>
+<button onclick="modo()">Modo Claro/Escuro</button>
 </div>
 
-<div class="produto">
-<img src="https://ae01.alicdn.com/kf/Saeab67a210814e4e8183334d68bbb396A.jpg">
-<h3>Mouse Gamer RGB</h3>
-<p>R$ 249,90</p>
-<div class="estoque" id="estoque1"></div>
-<div class="avaliar" onclick="avaliar(1,this)">
-⭐ ⭐ ⭐ ⭐ ⭐
-</div>
-<button class="comprar" onclick="adicionarAoCarrinho(1)">Comprar</button>
-</div>
-
-<div class="produto">
-<img src="https://pisces.bbystatic.com/image2/BestBuy_US/images/products/589d3b48-0f2b-43d7-924c-49dcfb8832ee.jpg;maxHeight=1920;maxWidth=900?format=webp">
-<h3>Headset Gamer</h3>
-<p>R$ 179,90</p>
-<div class="estoque" id="estoque2"></div>
-<div class="avaliar" onclick="avaliar(2,this)">
-⭐ ⭐ ⭐ ⭐ ⭐
-</div>
-<button class="comprar" onclick="adicionarAoCarrinho(2)">Comprar</button>
-</div>
-
-</div>
+<div class="container" id="produtos"></div>
 
 <div id="carrinho">
 <h2>🛒 Carrinho</h2>
-<div id="listaCarrinho"></div>
-<h3>Total: R$ <span id="total">0.00</span></h3>
-<button onclick="finalizar()">Finalizar Compra</button>
+<ul id="lista"></ul>
+<p>Total: R$ <span id="total">0</span></p>
+<input type="text" id="cupom" placeholder="Cupom">
+<button onclick="aplicarCupom()">Aplicar</button>
+<button onclick="comprar()">Finalizar</button>
 </div>
+
+<audio id="som">
+<source src="https://www.soundjay.com/buttons/sounds/button-3.mp3">
+</audio>
 
 <script>
 
 let produtos = [
-{
-nome:"Teclado Gamer RGB",
-preco:99.90,
-imagem:"https://uk.whatgeek.com/cdn/shop/files/ATTACK_SHARK_K86_Wireless_Mechanical_Keyboard_11_700x.jpg?v=1731052560",
-estoque:5
-},
-{
-nome:"Mouse Gamer RGB",
-preco:249.90,
-imagem:"https://ae01.alicdn.com/kf/Saeab67a210814e4e8183334d68bbb396A.jpg",
-estoque:3
-},
-{
-nome:"Headset Gamer",
-preco:179.90,
-imagem:"https://pisces.bbystatic.com/image2/BestBuy_US/images/products/589d3b48-0f2b-43d7-924c-49dcfb8832ee.jpg;maxHeight=1920;maxWidth=900?format=webp",
-estoque:4
-}
+{nome:"Teclado Gamer RGB",preco:99.90,img:"https://uk.whatgeek.com/cdn/shop/files/ATTACK_SHARK_K86_Wireless_Mechanical_Keyboard_11_700x.jpg?v=1731052560",estoque:5},
+{nome:"Mouse Gamer RGB",preco:249.90,img:"https://ae01.alicdn.com/kf/Saeab67a210814e4e8183334d68bbb396A.jpg",estoque:3},
+{nome:"Headset Gamer",preco:179.90,img:"https://pisces.bbystatic.com/image2/BestBuy_US/images/products/589d3b48-0f2b-43d7-924c-49dcfb8832ee.jpg;maxHeight=1920;maxWidth=900?format=webp",estoque:4}
 ];
 
-let carrinho = [];
+let total = 0;
+let desconto = 0;
 
-function atualizarEstoque(){
+function mostrar(){
+let area = document.getElementById("produtos");
+area.innerHTML="";
 produtos.forEach((p,i)=>{
-document.getElementById("estoque"+i).innerText =
-"Estoque: " + p.estoque;
+area.innerHTML+=`
+<div class="produto">
+<img src="${p.img}">
+<h3>${p.nome}</h3>
+<p>R$ ${p.preco}</p>
+<p>Estoque: ${p.estoque}</p>
+<div>
+<span class="estrela" onclick="avaliar(this)">★</span>
+<span class="estrela" onclick="avaliar(this)">★</span>
+<span class="estrela" onclick="avaliar(this)">★</span>
+<span class="estrela" onclick="avaliar(this)">★</span>
+<span class="estrela" onclick="avaliar(this)">★</span>
+</div>
+<button onclick="add(${i})">Comprar</button>
+</div>`;
 });
 }
 
-function adicionarAoCarrinho(index){
-let p = produtos[index];
-
-if(p.estoque <= 0){
-alert("Produto esgotado!");
+function add(i){
+if(produtos[i].estoque<=0){
+alert("Sem estoque!");
 return;
 }
+produtos[i].estoque--;
+total+=produtos[i].preco;
 
-p.estoque--;
+document.getElementById("lista").innerHTML+=
+`<li>${produtos[i].nome} - R$ ${produtos[i].preco}</li>`;
 
-let item = carrinho.find(i=> i.nome === p.nome);
+document.getElementById("total").innerText=(total-desconto).toFixed(2);
+document.getElementById("som").play();
+mostrar();
+}
 
-if(item){
-item.quantidade++;
+function aplicarCupom(){
+let c=document.getElementById("cupom").value;
+if(c=="ULTRA10"){
+desconto=total*0.1;
+alert("Cupom aplicado!");
 }else{
-carrinho.push({...p, quantidade:1});
+alert("Cupom inválido!");
+}
+document.getElementById("total").innerText=(total-desconto).toFixed(2);
 }
 
-atualizarEstoque();
-atualizarCarrinho();
+function comprar(){
+alert("Compra finalizada 🔥");
+location.reload();
 }
 
-function atualizarCarrinho(){
-let lista = document.getElementById("listaCarrinho");
-lista.innerHTML="";
-let total=0;
+function avaliar(el){
+el.classList.toggle("ativa");
+}
 
-carrinho.forEach(item=>{
-total += item.preco * item.quantidade;
+function modo(){
+document.body.classList.toggle("light");
+}
 
-let div=document.createElement("div");
-div.className="carrinho-item";
-div.innerHTML=`
-<img src="${item.imagem}">
-${item.nome} x${item.quantidade} - R$ ${(item.preco*item.quantidade).toFixed(2)}
-`;
-lista.appendChild(div);
+function filtrar(){
+let texto=document.getElementById("pesquisa").value.toLowerCase();
+let cards=document.querySelectorAll(".produto");
+cards.forEach(card=>{
+card.style.display=
+card.innerText.toLowerCase().includes(texto)
+? "block":"none";
 });
-
-document.getElementById("total").innerText=total.toFixed(2);
 }
 
-function finalizar(){
-alert("Compra realizada 🔥");
-carrinho=[];
-atualizarCarrinho();
+function ordenar(tipo){
+if(tipo=="menor"){
+produtos.sort((a,b)=>a.preco-b.preco);
+}
+if(tipo=="maior"){
+produtos.sort((a,b)=>b.preco-a.preco);
+}
+mostrar();
 }
 
-function avaliar(index,element){
-alert("Você avaliou o produto ⭐🔥");
-}
-
-atualizarEstoque();
+mostrar();
 
 </script>
 
