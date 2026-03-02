@@ -7,13 +7,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
+
 body{
 margin:0;
 font-family:'Orbitron',sans-serif;
-background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+background:#0f0c29;
 color:white;
 }
 
+/* HEADER */
 header{
 background:black;
 padding:20px;
@@ -24,56 +26,53 @@ color:#00f7ff;
 text-shadow:0 0 20px #00f7ff;
 }
 
-.container{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:20px;
-padding:20px;
-}
-
-.produto{
-background:#1b1b2f;
-padding:15px;
-border-radius:15px;
-width:230px;
-text-align:center;
-box-shadow:0 0 15px rgba(0,255,255,0.4);
-}
-
-.produto img{
+/* CAPA COM PARALLAX */
+.capa{
 width:100%;
-border-radius:10px;
+height:500px;
+background-image:url("capa.png"); /* coloque sua imagem aqui */
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
 }
 
-button{
-margin-top:8px;
-padding:8px 15px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-font-weight:bold;
-background:#00f7ff;
-color:black;
-}
-
-button:hover{
-background:#ff00c8;
+/* TEXTO SOBRE A CAPA */
+.textoCapa{
+font-family:'Bangers';
+font-size:60px;
 color:white;
+text-shadow:0 0 20px #00f7ff, 0 0 40px #ff00c8;
+padding:20px;
 }
 
-#carrinho,#admin{
-background:#111;
-margin:20px;
-padding:20px;
-border-radius:15px;
+/* CONTEÚDO */
+.conteudo{
+padding:40px;
+text-align:center;
 }
-input{
-margin:5px;
-padding:5px;
-border-radius:5px;
-border:none;
+
+/* RESPONSIVO PARA CELULAR */
+@media(max-width:768px){
+
+.capa{
+height:300px;
+background-attachment:scroll; /* melhora no celular */
 }
+
+.textoCapa{
+font-size:35px;
+}
+
+header{
+font-size:28px;
+}
+
+}
+
 </style>
 </head>
 
@@ -81,139 +80,17 @@ border:none;
 
 <header>🔥 LOJA ULTRA BRABA 🔥</header>
 
-<button onclick="abrirAdmin()" style="position:absolute;top:20px;right:20px;">👑 Área do Dono</button>
-
-<div class="container" id="produtos"></div>
-
-<div id="carrinho">
-<h2>🛒 Carrinho</h2>
-<ul id="lista"></ul>
-<p>Total: R$ <span id="total">0</span></p>
-<input type="text" id="cupom" placeholder="Cupom">
-<button onclick="aplicarCupom()">Aplicar</button>
+<div class="capa">
+<h1 class="textoCapa">
+BEM-VINDO À<br>
+LOJA MAIS BRABA DO BRASIL
+</h1>
 </div>
 
-<div id="admin" style="display:none;">
-<h2>🔐 Dashboard do Dono</h2>
-
-<h3>Adicionar Produto</h3>
-<input id="novoNome" placeholder="Nome">
-<input id="novoPreco" type="number" placeholder="Preço">
-<input id="novoImg" placeholder="URL da imagem">
-<input id="novoEstoque" type="number" placeholder="Estoque">
-<button onclick="addProduto()">Adicionar</button>
-
-<hr>
-
-<h3>Alterar Produto</h3>
-<input id="indexProduto" type="number" placeholder="Número do produto (0,1,2...)">
-<input id="novoValor" type="number" placeholder="Novo preço">
-<input id="novoEstoque2" type="number" placeholder="Novo estoque">
-<button onclick="alterarProduto()">Atualizar</button>
-
-<hr>
-
-<h3>Criar Cupom</h3>
-<input id="nomeCupom" placeholder="Nome do cupom">
-<input id="valorCupom" type="number" placeholder="Desconto %">
-<button onclick="criarCupom()">Criar Cupom</button>
+<div class="conteudo">
+<h2>Produtos Gamers Insanos 😈</h2>
+<p>Aqui você encontra teclado, mouse e headset nível PRO!</p>
 </div>
-
-<script>
-
-let produtos=[
-{nome:"Teclado Gamer RGB",preco:99.90,img:"https://uk.whatgeek.com/cdn/shop/files/ATTACK_SHARK_K86_Wireless_Mechanical_Keyboard_11_700x.jpg?v=1731052560",estoque:5},
-{nome:"Mouse Gamer RGB",preco:249.90,img:"https://ae01.alicdn.com/kf/Saeab67a210814e4e8183334d68bbb396A.jpg",estoque:3},
-{nome:"Headset Gamer",preco:179.90,img:"https://pisces.bbystatic.com/image2/BestBuy_US/images/products/589d3b48-0f2b-43d7-924c-49dcfb8832ee.jpg",estoque:4}
-];
-
-let total=0;
-let desconto=0;
-let cupons={"ULTRA10":10};
-
-function mostrar(){
-let area=document.getElementById("produtos");
-area.innerHTML="";
-produtos.forEach((p,i)=>{
-area.innerHTML+=`
-<div class="produto">
-<img src="${p.img}">
-<h3>${p.nome}</h3>
-<p>R$ ${p.preco}</p>
-<p>Estoque: ${p.estoque}</p>
-<button onclick="add(${i})">Comprar</button>
-</div>`;
-});
-}
-
-function add(i){
-if(produtos[i].estoque<=0){
-alert("Sem estoque!");
-return;
-}
-produtos[i].estoque--;
-total+=produtos[i].preco;
-document.getElementById("lista").innerHTML+=`<li>${produtos[i].nome} - R$ ${produtos[i].preco}</li>`;
-document.getElementById("total").innerText=(total-desconto).toFixed(2);
-mostrar();
-}
-
-function aplicarCupom(){
-let c=document.getElementById("cupom").value;
-if(cupons[c]){
-desconto=total*(cupons[c]/100);
-alert("Cupom aplicado!");
-}else{
-alert("Cupom inválido!");
-}
-document.getElementById("total").innerText=(total-desconto).toFixed(2);
-}
-
-function abrirAdmin(){
-let senha=prompt("Digite a senha:");
-if(senha==="admin123"){
-document.getElementById("admin").style.display="block";
-}else{
-alert("Senha incorreta!");
-}
-}
-
-function addProduto(){
-let nome=document.getElementById("novoNome").value;
-let preco=parseFloat(document.getElementById("novoPreco").value);
-let img=document.getElementById("novoImg").value;
-let estoque=parseInt(document.getElementById("novoEstoque").value);
-produtos.push({nome,preco,img,estoque});
-mostrar();
-alert("Produto adicionado!");
-}
-
-function alterarProduto(){
-let i=parseInt(document.getElementById("indexProduto").value);
-if(produtos[i]){
-if(document.getElementById("novoValor").value){
-produtos[i].preco=parseFloat(document.getElementById("novoValor").value);
-}
-if(document.getElementById("novoEstoque2").value){
-produtos[i].estoque=parseInt(document.getElementById("novoEstoque2").value);
-}
-mostrar();
-alert("Atualizado!");
-}else{
-alert("Produto não encontrado!");
-}
-}
-
-function criarCupom(){
-let nome=document.getElementById("nomeCupom").value;
-let valor=parseFloat(document.getElementById("valorCupom").value);
-cupons[nome]=valor;
-alert("Cupom criado!");
-}
-
-mostrar();
-
-</script>
 
 </body>
 </html>
